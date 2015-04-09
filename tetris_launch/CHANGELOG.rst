@@ -2,6 +2,11 @@
 Changelog for package tetris_launch
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.1 (2015-04-09)
+------------------
+* (Doc) Elaborate instruction.
+* Contributors: Isaac IY Saito
+
 0.1.0 (2015-03-22)
 ------------------
 * Run keyboardteleop by default.
