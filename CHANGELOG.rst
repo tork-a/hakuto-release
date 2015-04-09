@@ -2,6 +2,9 @@
 Changelog for package tetris_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.1 (2015-04-09)
+------------------
+
 0.1.0 (2015-03-22)
 ------------------
 * Add kinematic parameters obtained from designers.
