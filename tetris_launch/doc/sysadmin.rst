@@ -1,4 +1,4 @@
-Hakuto `Build Status <https://magnum.travis-ci.com/tork-a/hakuto.svg?token=CnBWT8crLoonzXSDK29D&branch=master)](https://magnum.travis-ci.com/tork-a/hakuto>`_
+Hakuto installation and in-depth operation doc
 ================================================================================================================================================================
 
 ROS package suite for the lunar rovers at `Hakuto project <http://lunar.xprize.org/teams/hakuto>`_, a `Google XPRIZE <http://lunar.xprize.org/teams/astrobotic>`_ competitor.
@@ -29,6 +29,21 @@ We're going to install the following packages. You don't need to explore each on
 * `tetris_gazebo <https://github.com/tork-a/hakuto/blob/master/tetris_gazebo/package.xml>`_
 * `tetris_launch <https://github.com/tork-a/hakuto/blob/master/tetris_launch/package.xml>`_
 
+DEB build status
+================
+
+"apt-get"table binary (`DEB`) files are generated at `ROS build farm <http://wiki.ros.org/buildfarm/Gen1Buildfarm>`_ maintained by `OSRF <http://osrfoundation.org/>`_). The following is the status of the build jobs.
+
++--------------+-------------------------+----------------------------+-----------------------------+-----------------------+-------------------------------+-------------------------+
+| ROS Distro   | Source deb              | Development Branch (travis)| Development branch (ros.org)| Release Branch        | binarydeb Precise AMD64       | Documentation (ros.org) |
++==============+=========================+============================+=============================+=======================+===============================+=========================+
+| Indigo       | |buildstatus_sourcedeb| | |buildstatus_devel_travis| | |buildstatus_devel_ros.org| | |buildstatus_release| | |buildstatus_binarydeb_amd64| | |buildstatus_doc|       |
++--------------+-------------------------+----------------------------+-----------------------------+-----------------------+-------------------------------+-------------------------+
+
+`Devel Test Status <http://wiki.ros.org/regression_tests#Development_Tests>`_
+-------------------------------------------------------------------------------------
+
+|job_devel-indigo-hakuto|
 
 For web server system admins
 =================================
@@ -94,8 +109,7 @@ The directory `~/catkin_ws/` will be used as a source directory for this instruc
 
   $ catkin_make install && source install/setup.bash
 
-4. Now let's install web front-end of the simulator, `Gzweb`. Follow the `official installation steps <http://gazebosim.org/gzweb#gzweb_installation>`_. Go through until `Clone the repository and build` section (ie. Stop before `Running gzserver, gzweb server, and WebGL client` section). Select `./deploy.sh -m`.
-
+4. Now let's install web front-end of the simulator, `Gzweb`. Follow the `official installation steps <http://gazebosim.org/gzweb#gzweb_installation>`_. Go through until `Clone the repository and build` section (ie. Stop before `Running gzserver, gzweb server, and WebGL client` section). Select `./deploy.sh -m local -c`. and this may failed due to  https://bitbucket.org/osrf/gzweb/issues/64/missing-image-assets#comment-23080035, but it is ok.
 
 5. Place the necessary 3D model files of lunar surface by running the following commands.
 
@@ -105,9 +119,12 @@ The directory `~/catkin_ws/` will be used as a source directory for this instruc
 
   $ cd %HOME_GZWEB%/http/client/
   $ mkdir assets         (create `assets` folder in case it doesn't exist)
-  $ ln -fs `rospack find tetris_description`/models/tetris/ .
-  $ cd %HOME_GZWEB%/http/client/assets     (`assets` folder may not exist. If so, create it)
+  $ cp -r `rospack find tetris_description`/models/tetris/ .
   $ ln -fs `rospack find tetris_gazebo`/models/apollo15_landing_site_1000x1000 .
+  $ cd %HOME_GZWEB%
+  $ ./coarse_meshes.sh  50 http/client/assets/tetris/
+
+  This is tricky, coarse_meshes.sh convert jpg to png, we do not want to change contents in apollo15_landing_site_1000x1000.
 
 6. Add a trick to show the earth in the sky.
 
@@ -145,19 +162,19 @@ Also modify `SkyX_Moon.fragment` file in the same directory (see `this question 
 Run the web simulator server 
 --------------------------------
 
-Run Gzweb, Gazebo on web server. You need to open multiple terminals and run the following.
+Run Gzweb, Gazebo on web server. You need to open multiple terminals and run the following. We encourage you to use `tmux` tools ( if you run `tmux a`, you can attach to existing shells, C-b D will detach from tmux)
 
 * Terminal-1: Run simulation engine, Hakuto simulation modules.
 * Terminal-2: Run web frontend for the simulation engine. 
 
  ::
 
-  terminal-1$ roslaunch tetris_launch demo.launch gui:=false
+  terminal-1$ roslaunch tetris_launch demo.launch gui:=false kbteleop:=false
   terminal-2$ DISPLAY=:0.0 ROS_MASTER_URI=http://%WEBSERVER_IPADDR%:13311 ROS_IP=%WEBSERVER_IPADDR% %HOME_GZWEB%/start_gzweb.sh &
 
   (Example)
 
-  terminal-2$ DISPLAY=:0.0 ROS_MASTER_URI=http://54.92.58.250:13311 ROS_IP=54.92.58.250 /usr/local/lib/node_modules/gzweb/start_gzweb.sh &
+  terminal-2$ DISPLAY=:0.0 ROS_MASTER_URI=http://54.92.58.250:13311 ROS_IP=54.92.58.250 /home/ubuntu/gzweb/start_gzweb.sh &
 
 Troubleshoot server
 --------------------
@@ -184,6 +201,12 @@ For Developers
 ===============
 
 As we have seen, Hakuto lunar simulation is tailored to be run on web server powered by `Gzweb`. Desktop version of simulator `Gazebo`, however, is more powerful and stable, which is more recommended for development purpose. Follow this section in that case.
+
+.. raw:: html
+
+    <iframe width="420" height="315" src="https://www.youtube.com/embed/Cb9HwY6eenE" frameborder="0" allowfullscreen></iframe>
+
+(If you don't see a video embedded above, go to `youtube <https://www.youtube.com/embed/Cb9HwY6eenE>`_ site.)
 
 `As in the system diagram <https://github.com/tork-a/hakuto/blob/doc/tutorial/tetris_launch/doc/sysadmin.rst#system-structure>`_, simulator consists of two components: simulation core (`Gazebo`) and web user interface (`Gzweb`). Except improvements about userability, changes are most likely prone to the simulation engine. That said, experiments for those works can be done with the desktop simulator, Gazebo, and once it looks good then you can employ the changes on Gzweb.
 
@@ -322,9 +345,16 @@ Here are some task-oriented guidance for the xml tags.
 
 - Make robot climb uphills more steadily: 
 
- Increase torque by `wheelTorque` and friction coefficient `mu1`, `mu2` are effective.
+Increase torque by `wheelTorque` and friction coefficient `mu1`, `mu2` are effective.
 
 - Stop robot to jump around: 
 
- Restitution coefficient is currently not in use with this robot (although its available in URDF). So far it's manipulated by modifying friction coefficient.
+Restitution coefficient is currently not in use with this robot (although its available in URDF). So far it's manipulated by modifying friction coefficient.
 
+.. |buildstatus_sourcedeb| image:: http://jenkins.ros.org/buildStatus/icon?job=ros-indigo-hakuto_sourcedeb
+.. |buildstatus_devel_travis| image:: https://travis-ci.org/tork-a/hakuto.png?branch=master
+.. |buildstatus_devel_ros.org| image:: http://jenkins.ros.org/buildStatus/icon?job=devel-indigo-hakuto
+.. |buildstatus_release| image:: https://travis-ci.org/tork-a/hakuto.png?branch=master
+.. |buildstatus_binarydeb_amd64| image:: http://jenkins.ros.org/buildStatus/icon?job=ros-indigo-hakuto_binarydeb_trusty_amd64
+.. |buildstatus_doc| image:: http://jenkins.ros.org/buildStatus/icon?job=doc-indigo-hakuto
+.. |job_devel-indigo-hakuto| image:: http://jenkins.ros.org/job/devel-indigo-hakuto/test/trend?job
