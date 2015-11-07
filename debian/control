@@ -1,0 +1,12 @@
+Source: ros-indigo-tetris-launch
+Section: misc
+Priority: extra
+Maintainer: TORK <dev@opensource-robotics.tokyo.jp>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-catkin
+Homepage: http://wiki.ros.org/tetris_launch
+Standards-Version: 3.9.2
+
+Package: ros-indigo-tetris-launch
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-indigo-rosbridge-server, ros-indigo-teleop-twist-keyboard, ros-indigo-tetris-gazebo
+Description: Launch files (batch files that start processes and set parameters) for hakuto robots. This package also contains document for the Hakuto ROS package suite. Notes: Some images included in the instruction to be applied to Gazebo runtime are publicly provided by JAXA, Japan Aerospace Exploration Agency, for science and educational purposes.
