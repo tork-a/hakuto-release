@@ -2,6 +2,9 @@
 Changelog for package tetris_gazebo
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.6 (2016-04-27)
+------------------
+
 0.1.5 (2016-04-27)
 ------------------
 * *.launch : add INITIAL_POSE\_{X,Y,Z} arguments
