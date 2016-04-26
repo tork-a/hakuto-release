@@ -1,0 +1,12 @@
+Source: ros-jade-hakuto
+Section: misc
+Priority: extra
+Maintainer: TORK <dev@opensource-robotics.tokyo.jp>
+Build-Depends: debhelper (>= 9.0.0), ros-jade-catkin
+Homepage: http://wiki.ros.org/hakuto
+Standards-Version: 3.9.2
+
+Package: ros-jade-hakuto
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jade-tetris-description, ros-jade-tetris-gazebo, ros-jade-tetris-launch
+Description: ROS package suite for the lunar rovers at Hakuto project, a Google Lunar XPRIZE contender.
