@@ -1,0 +1,13 @@
+Source: ros-jade-tetris-gazebo
+Section: misc
+Priority: extra
+Maintainer: Isaac I.Y. Saito <iiysaito@opensource-robotics.tokyo.jp>
+Build-Depends: debhelper (>= 9.0.0), ros-jade-catkin, ros-jade-gazebo-plugins
+Homepage: http://wiki.ros.org/tetris_gazebo
+Standards-Version: 3.9.2
+
+Package: ros-jade-tetris-gazebo
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jade-gazebo-plugins, ros-jade-gazebo-ros, ros-jade-gazebo-ros-control, ros-jade-robot-state-publisher, ros-jade-rosbash, ros-jade-tetris-description, ros-jade-xacro
+Description: This package contains specific ROS simulation setting for hakuto robots.
+ Note: &quot;models&quot; directory is temporary and should be removed once this pullrequest to gazebo_model gets merged.
