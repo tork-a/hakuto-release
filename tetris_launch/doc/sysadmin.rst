@@ -4,7 +4,7 @@ Hakuto installation and in-depth operation doc
 ROS package suite for the lunar rovers at `Hakuto project <http://lunar.xprize.org/teams/hakuto>`_, a `Google XPRIZE <http://lunar.xprize.org/teams/astrobotic>`_ competitor.
 
 .. contents:: Table of Contents
-   :depth: 2
+   :depth: 3
 .. sectnum::
 
 Overview
@@ -61,10 +61,16 @@ Web server requirement
 Hakuto package Installation
 --------------------------------
 
-Install via apt (RECOMMENDED)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Let's install a few of the simulator's main components: 
 
-Let's install a few of the simulator's main components: `ROS <http://ros.org/>`_ (robotics middleware), `Gazebo <http://gazebosim.org/>`_ (dynamics simulation engine), `gzweb <http://gazebosim.org/gzweb>`_ (Gazebo's web frontend).
+* `ROS <http://ros.org/>`_ (robotics middleware)
+* `Gazebo <http://gazebosim.org/>`_ (dynamics simulation engine)
+* (Optional) `gzweb <http://gazebosim.org/gzweb>`_ (Gazebo's web frontend)
+
+`gzweb` is needed only when you want WEB browser based operation interface, therefore it's documented as an individual section.
+
+ROS and Gazebo install via apt (RECOMMENDED)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. Install ROS.
 
@@ -84,8 +90,11 @@ See `ROS wiki <http://wiki.ros.org/indigo/Installation/Ubuntu>`_ for the detail 
 
   Ubuntu$ sudo apt-get install ros-indigo-hakuto
 
-Install via source
-~~~~~~~~~~~~~~~~~~~~~~~~
+
+ROS and Gazebo install via source
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**If you've successfully done `Install via apt` section, you can skip this alternative.**
 
 The directory `~/catkin_ws/` will be used as a source directory for this instruction.
 
@@ -109,24 +118,7 @@ The directory `~/catkin_ws/` will be used as a source directory for this instruc
 
   $ catkin_make install && source install/setup.bash
 
-4. Now let's install web front-end of the simulator, `Gzweb`. Follow the `official installation steps <http://gazebosim.org/gzweb#gzweb_installation>`_. Go through until `Clone the repository and build` section (ie. Stop before `Running gzserver, gzweb server, and WebGL client` section). Select `./deploy.sh -m local -c`. and this may failed due to  https://bitbucket.org/osrf/gzweb/issues/64/missing-image-assets#comment-23080035, but it is ok.
-
-5. Place the necessary 3D model files of lunar surface by running the following commands.
-
-  `%HOME_GZWEB%` is where you intalled `Gzweb`.
-
-  ::
-
-  $ cd %HOME_GZWEB%/http/client/
-  $ mkdir assets         (create `assets` folder in case it doesn't exist)
-  $ cp -r `rospack find tetris_description`/models/tetris/ .
-  $ ln -fs `rospack find tetris_gazebo`/models/apollo15_landing_site_1000x1000 .
-  $ cd %HOME_GZWEB%
-  $ ./coarse_meshes.sh  50 http/client/assets/tetris/
-
-  This is tricky, coarse_meshes.sh convert jpg to png, we do not want to change contents in apollo15_landing_site_1000x1000.
-
-6. Add a trick to show the earth in the sky.
+4. Add a trick to show the earth in the sky.
 
 By default, the moon appears in the sky (I know how strange you feel since we're simulating lunar surface). 
 
@@ -137,9 +129,9 @@ By default, the moon appears in the sky (I know how strange you feel since we're
   $ sudo cp SkyX_Moon.png SkyX_Moon.png.org
   $ sudo ln -sf earth_from_moon_20071113_kaguya_03l.png SkyX_Moon.png
 
-NOTE: Directory `/usr/share/gazebo-2.2/media/skyx/` may vary depending on the version of Gazebo, or also for Gzweb (at the time of writing this is not tested on `Gzweb` yet). In that case find `media/skyx` directory and apply the same change.
+NOTE: Directory `/usr/share/gazebo-2.2/media/skyx/` may vary depending on the version of Gazebo installed on your environment, or also for Gzweb (at the time of writing this is not tested on `Gzweb` yet). In that case find `media/skyx` directory and apply the same change.
 
-Also modify `SkyX_Moon.fragment` file in the same directory (see `this question <http://answers.gazebosim.org/questions/8401>`_ for the discussion if necessary).
+Also modify `SkyX_Moon.fragment` file in the same directory (see `this question <http://answers.gazebosim.org/questions/8401>`_ for the discussion if necessary) as:
 
 ::
 
@@ -151,13 +143,36 @@ Also modify `SkyX_Moon.fragment` file in the same directory (see `this question 
 
   `.fragment` file seems to not work right with some comment-out formats; e.g. do not use `#` or it just didn't show the earth at all.
 
-7. Prepare joystick keypad (for tele-operation)
+5. Prepare joystick keypad (for tele-operation)
 
  Tele-operation is done by using `keyboardteleopjs <http://wiki.ros.org/keyboardteleopjs>`_ that accepts command input from the keyboard through web browser. Put a `joystick.html` file under the `docroot` of your web server. In this document we use `/var/www/` for `apache` in this document. ::
   
   $ cp `rospack find tetris_launch`/www/joystick.html /var/www/
 
  You might need to edit the file using your web server's IP address, and the name of `Twist` topic. Do that by following `the tutorial for keyboard teleop <http://wiki.ros.org/keyboardteleopjs/Tutorials/CreatingABasicTeleopWidgetWithSpeedControl>`_.
+
+gzweb install via source
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now let's install web front-end of the simulator `Gzweb`, which is available only as source (as of Jan 2016). Also add a customization for hakuto package.
+
+1. Follow the `official installation steps <http://gazebosim.org/gzweb#gzweb_installation>`_. Go through until `Clone the repository and build` section (ie. Stop before `Running gzserver, gzweb server, and WebGL client` section). Select `./deploy.sh -m local -c`. and this may fail due to `this comment <https://bitbucket.org/osrf/gzweb/issues/64/missing-image-assets#comment-23080035>`_ but it is ok.
+
+2. We need a small hack to realize lunar surface on gzweb. Place the necessary 3D model files of lunar surface by running the following commands.
+
+`%HOME_GZWEB%` is where you intalled `Gzweb`.
+
+::
+
+  $ cd %HOME_GZWEB%/http/client/
+  $ mkdir assets         (create `assets` folder in case it doesn't exist)
+  $ cd assets
+  $ cp -r `rospack find tetris_description`/models/tetris/ .
+  $ ln -fs `rospack find tetris_gazebo`/models/apollo15_landing_site_1000x1000 .
+  $ cd %HOME_GZWEB%
+  $ ./coarse_meshes.sh  50 http/client/assets/tetris/
+
+  This is tricky (coarse_meshes.sh converting jpg to png), but idea is that we do not want to make change to the original `tetris_gazebo/models/apollo15_landing_site_1000x1000` folder. Hopefully in the future this hack won't be needed as gzweb develops.
 
 Run the web simulator server 
 --------------------------------
@@ -167,7 +182,7 @@ Run Gzweb, Gazebo on web server. You need to open multiple terminals and run the
 * Terminal-1: Run simulation engine, Hakuto simulation modules.
 * Terminal-2: Run web frontend for the simulation engine. 
 
- ::
+::
 
   terminal-1$ roslaunch tetris_launch demo.launch gui:=false kbteleop:=false
   terminal-2$ DISPLAY=:0.0 ROS_MASTER_URI=http://%WEBSERVER_IPADDR%:13311 ROS_IP=%WEBSERVER_IPADDR% %HOME_GZWEB%/start_gzweb.sh &
@@ -176,8 +191,72 @@ Run Gzweb, Gazebo on web server. You need to open multiple terminals and run the
 
   terminal-2$ DISPLAY=:0.0 ROS_MASTER_URI=http://54.92.58.250:13311 ROS_IP=54.92.58.250 /home/ubuntu/gzweb/start_gzweb.sh &
 
-Troubleshoot server
---------------------
+Configure supervisor tool
+-------------------------
+
+`Supervisor <http://supervisord.org/e>`_ is a nice tool to manage
+gazebo and gzweb from web interface
+
+1. Install supervisor ::
+
+  sudo apt-get install supervisor
+
+2. Setup configuration script
+
+Configure web interface, add following line to the`/etc/supervisor/supervisord.conf`::
+
+  [inet_http_server]
+  port = 9001
+  username = user ; Basic auth username
+  password = pass ; Basic auth password
+
+Add configuration file named `run_gazebo.conf` and `run_gzweb.conf` to `/etc/supervisor/conf.d/`, add `run_gazebo.conf` as ::
+
+  [program:run_gazebo]
+  # http://stackoverflow.com/questions/6666245/running-bash-pipe-commands-in-background-with-ampersand ; & is seprator
+  # http://veithen.github.io/2014/11/16/sigterm-propagation.html ; propagate SIGTERM
+  command=bash -c 'source ~/catkin_ws/install/setup.bash; env; trap "kill -TERM \$PID" TERM; roslaunch tetris_launch demo.launch gui:=false kbteleop:=false & PID=$!; wait $PID'
+  stopsignal=TERM
+  directory=/home/ubuntu/catkin_ws/
+  autostart=false
+  autorestart=true
+  stderr_logfile=/var/log/run_gazebo.log
+  stdout_logfile=/var/log/run_gazebo.log
+  user=ubuntu
+  environment=HOME=/home/ubuntu,DISPLAY=:0.0,ROS_MASTER_URI=http://54.92.58.250:13311,ROS_IP=54.92.58.250 # home is not set at bash -c
+
+
+and `run_gzweb.conf` as ::
+
+  [program:run_gzweb]
+  # http://veithen.github.io/2014/11/16/sigterm-propagation.html ; propagate SIGTERM
+  command=bash -c 'source ~/catkin_ws/install/setup.bash; env; trap "./stop_gzweb.sh" TERM; ./start_gzweb.sh; read'
+  stopsignal=TERM
+  directory=/home/ubuntu/gzweb
+  autostart=false
+  autorestart=true
+  stderr_logfile=/var/log/run_gzweb.log
+  stdout_logfile=/var/log/run_gzweb.log
+  user=ubuntu
+  environment=HOME=/home/ubuntu,DISPLAY=:0.0,ROS_MASTER_URI=http://54.92.58.250:13311,ROS_IP=54.92.58.250 # home is not set at bash -c
+
+You have to run following commands to configure and ::
+
+  sudo supervisorctl reload
+  sudo supervisorctl reread
+  sudo supervisorctl update
+  sudo supervisorctl start run_gazebo
+  sudo supervisorctl start run_gzweb
+  sudo supervisorctl status
+
+you can access current status from http://<ip address>:9001/. Note
+that above configuration is not auto start the gazebo/gzweb after ther
+the reboot. So you must manually run the program.
+
+.. image:: ./img/supervisor.png
+
+Troubleshoot
+------------
 
 When something is wrong...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
