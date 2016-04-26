@@ -7,8 +7,8 @@ With this ROS package, we can realize `lunar rovers at Hakuto <http://team-hakut
 
 Please see `installation and in-depth operation <./sysadmin.rst>`_ doc if you're:
 
- * system administrator responsible for install/maintainance work
- * developer 
+* system administrator responsible for install/maintainance work
+* developer 
 
 .. contents:: Table of Contents
    :depth: 2
@@ -19,24 +19,24 @@ Operating System and Web Browser tested
 
 The simulator has been seen working on the following environment:
 
- * Mac OSX 10.10
+* Mac OSX 10.10
 
-   * Google Chrome 40.0
-   * Firefox 35.0
- * Android 5.0.1
+  * Google Chrome 40.0
+  * Firefox 35.0
+* Android 5.0.1
 
-   * Google Chrome 40.0 
+  * Google Chrome 40.0 
 
- * Ubuntu Linux (12.04 and 14.04)
+* Ubuntu Linux (12.04 and 14.04)
 
-   * Google Chromium 37.0 
-   * Firefox 35.0
+  * Google Chromium 37.0 
+  * Firefox 35.0
 
 Under following circumstance the simulator limitedly works:
 
- * MS Windows 7 (64bit)
+* MS Windows 7 (64bit)
 
-   * IE11
+  * IE11
 
 Simulator Basic Usage
 ========================
@@ -86,10 +86,6 @@ Troubleshooting
 
 The Hakuto web simulation is administered by `TORK <http://opensource-robotics.tokyo.jp/>`_, but this is subject to change. For now (Mar, 2015) any issues and requests can be contacted on `the issue tracker on github <https://github.com/tork-a/hakuto/issues>`_.
 
-Contribution
-===============
-
-*1 Web server where the simulation runs on is run by courtesy of JSK lab as of Nov. 2015.
 
 .. |hakuto_gzweb_dark| image:: https://cloud.githubusercontent.com/assets/493276/10970279/ecbde300-8410-11e5-9034-c33354ce7357.png
 .. |hakuto_web_simulator_osx_ff| image:: ./img/gzweb-1.2_tetris_osx_ff.png.jpg
