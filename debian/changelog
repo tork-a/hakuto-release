@@ -1,0 +1,71 @@
+ros-jade-tetris-launch (0.1.6-0trusty) trusty; urgency=high
+
+  * install www
+  * Contributors: Kei Okada
+
+ -- TORK <dev@opensource-robotics.tokyo.jp>  Tue, 26 Apr 2016 15:00:00 -0000
+
+ros-jade-tetris-launch (0.1.5-0trusty) trusty; urgency=high
+
+  * add test to install
+  * add rostest test/tetris.test
+  * *.launch : add INITIAL_POSE_{X,Y,Z} arguments
+  * [doc] Some clarifications
+  * [doc] Seperate gzweb installation
+  * [doc] Minor formatting
+  * doc/sysadmin.rst: add how to use supervisor tool, fix sysadmin tools
+  * set default cmd_vel to 1.0
+  * add rosbridge_websocket.launch to demo.launch
+  * Update index.rst
+  * Contributors: Isaac I.Y. Saito, Kei Okada
+
+ -- TORK <dev@opensource-robotics.tokyo.jp>  Tue, 26 Apr 2016 15:00:00 -0000
+
+ros-jade-tetris-launch (0.1.4-0trusty) trusty; urgency=high
+
+  * [improved] Sun light is stronger on the Moon
+  * [fix] Workaround for teleop dying error ( #23 <https://github.com/tork-a/hakuto/issues/23>)
+  * [doc] Use rosdoc_lite. Add more Gzweb server-side usage
+  * Contributors: Kei Okada, Isaac I.Y. Saito
+
+ -- TORK <dev@opensource-robotics.tokyo.jp>  Thu, 05 Nov 2015 15:00:00 -0000
+
+ros-jade-tetris-launch (0.1.3-0trusty) trusty; urgency=high
+
+  * (Doc) No fragment aura around the earth to fix #40 <https://github.com/tork-a/hakuto/issues/40>
+  * Contributors: Isaac IY Saito
+
+ -- TORK <dev@opensource-robotics.tokyo.jp>  Fri, 10 Apr 2015 15:00:00 -0000
+
+ros-jade-tetris-launch (0.1.2-0trusty) trusty; urgency=high
+
+  * (Feature) Add starry sky scene, earth seen from lunar surface taken by Kaguya, JAXA
+  * Contributors: Isaac IY Saito
+
+ -- TORK <dev@opensource-robotics.tokyo.jp>  Wed, 08 Apr 2015 15:00:00 -0000
+
+ros-jade-tetris-launch (0.1.1-0trusty) trusty; urgency=high
+
+  * (Doc) Elaborate instruction.
+  * Contributors: Isaac IY Saito
+
+ -- TORK <dev@opensource-robotics.tokyo.jp>  Wed, 08 Apr 2015 15:00:00 -0000
+
+ros-jade-tetris-launch (0.1.0-0trusty) trusty; urgency=high
+
+  * Run keyboardteleop by default.
+  * Add joystick.html example for keyboardteleop
+  * Contributors: Isaac IY Saito
+
+ -- TORK <dev@opensource-robotics.tokyo.jp>  Sat, 21 Mar 2015 15:00:00 -0000
+
+ros-jade-tetris-launch (0.0.1-0trusty) trusty; urgency=high
+
+  * Add missing run_depend on teleop.
+  * add gui arguments to demo.launch
+  * add CMakeLists.txt launch/demo.launch package.xml
+  * Contributors: Isaac IY Saito, Tokyo Opensource Robotics Programmer 534o
+
+ -- TORK <dev@opensource-robotics.tokyo.jp>  Tue, 13 Jan 2015 15:00:00 -0000
+
+
