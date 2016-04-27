@@ -1,3 +1,30 @@
+## hakuto (jade) - 0.1.8-0
+
+The packages in the `hakuto` repository were released into the `jade` distro by running `/usr/bin/bloom-release hakuto -t jade -r jade` on `Wed, 27 Apr 2016 07:36:28 -0000`
+
+These packages were released:
+- `hakuto`
+- `tetris_description`
+- `tetris_gazebo`
+- `tetris_launch`
+
+Version of package(s) in repository `hakuto`:
+
+- upstream repository: https://github.com/tork-a/hakuto.git
+- release repository: https://github.com/tork-a/hakuto-release.git
+- rosdistro version: `0.1.7-0`
+- old version: `0.1.7-0`
+- new version: `0.1.8-0`
+
+Versions of tools used:
+
+- bloom version: `0.5.21`
+- catkin_pkg version: `0.2.10`
+- rosdep version: `0.11.4`
+- rosdistro version: `0.4.4`
+- vcstools version: `0.1.38`
+
+
 ## hakuto (indigo) - 0.1.8-0
 
 The packages in the `hakuto` repository were released into the `indigo` distro by running `/usr/bin/bloom-release hakuto -t indigo -r indigo` on `Wed, 27 Apr 2016 07:31:30 -0000`
