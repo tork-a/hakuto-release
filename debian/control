@@ -1,0 +1,13 @@
+Source: ros-jade-tetris-launch
+Section: misc
+Priority: extra
+Maintainer: TORK <dev@opensource-robotics.tokyo.jp>
+Build-Depends: debhelper (>= 9.0.0), ros-jade-catkin, ros-jade-rostest
+Homepage: http://wiki.ros.org/tetris_launch
+Standards-Version: 3.9.2
+
+Package: ros-jade-tetris-launch
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jade-rosbridge-server, ros-jade-teleop-twist-keyboard, ros-jade-tetris-gazebo
+Description: Launch files (batch files that start processes and set parameters) for hakuto robots.
+ This package also contains document for the Hakuto ROS package suite. Notes: Some images included in the instruction to be applied to Gazebo runtime are publicly provided by JAXA, Japan Aerospace Exploration Agency, for science and educational purposes.
